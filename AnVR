@@ -1,0 +1,287 @@
+2. Turn day image into a night image on mouse click in Unity. 
+using System.Collections; using 
+System.Collections.Generic; 
+using UnityEngine;  
+ public class DayNightToggle : 
+MonoBehaviour  
+{     public Light 
+sun;  
+    private bool isDay = true;  
+     void 
+Update()  
+    {  
+        if(Input.GetMouseButtonDown(0) ||  
+Input.GetKeyDown(KeyCode.Space))  
+        {  
+            ToggleDayNight();  
+        }  
+    }      void 
+ToggleDayNight()  
+    {         isDay = 
+!isDay;         
+if(isDay)  
+        {             sun.intensity = 1f;             
+sun.transform.Rotate(-180, -30, 0);  
+        }         else         {             
+sun.intensity = 0.2f;             
+sun.transform.Rotate(180, -30, 0);  
+        }  
+    }  
+}  
+  
+  
+  
+  
+3. Crate a scene, where a candle is lit (with shadows and smoke), on mouse click using Unity. 
+using System.Collections; using 
+System.Collections.Generic; 
+using UnityEngine;  
+ public class CandleController : 
+MonoBehaviour  
+{     public GameObject 
+flameParticle;     private bool 
+isLit = false;     void Start()  
+    {         
+flameParticle.SetActive(false);  
+    }  
+  
+    // Update is called once per frame     
+void Update()  
+    {  
+        if (Input.GetMouseButtonDown(0) ||  
+Input.GetKeyDown(KeyCode.Space))  
+        {  
+            ToggleCandle();  
+        }  
+    }      private void 
+ToggleCandle()  
+    {         isLit = 
+!isLit;  
+         
+flameParticle.SetActive(isLit);     }  
+}  
+  
+  
+  
+4. Change a character emotion (Neutral to happy, Happy to sad, sad to angry etc.,) using Unity 
+using System.Collections; using 
+System.Collections.Generic; using 
+UnityEngine;  
+ public class ChangeSprite : 
+MonoBehaviour  
+{     public Sprite happySprite;     
+public Sprite sadSprite;     public 
+Sprite angrySprite;     public 
+SpriteRenderer spriteRenderer;     public 
+AudioSource soundClip;     void Start()  
+    {  
+        spriteRenderer = 
+GetComponent<SpriteRenderer>();         
+soundClip = GetComponent<AudioSource>();         
+if(spriteRenderer == null)  
+        {  
+            Debug.Log("Sprite not found");  
+        }         
+else  
+        {  
+            SetSprite(happySprite);  
+        }  
+    }  
+  
+    // Update is called once per frame     
+void Update()  
+    {  
+        if(Input.GetKeyDown(KeyCode.H))  
+        {  
+            SetSprite(happySprite);             
+soundClip.Play();  
+        }         else 
+if(Input.GetKeyDown(KeyCode.S))         {  
+            SetSprite(sadSprite);             
+soundClip.Play();  
+        }         else 
+if(Input.GetKeyDown(KeyCode.A))         {  
+            SetSprite(angrySprite);             
+soundClip.Play();  
+        }  
+    }      void SetSprite(Sprite 
+newSprite)  
+    {         if(newSprite != null && 
+spriteRenderer != null)         {             
+spriteRenderer.sprite = newSprite;  
+        }         
+else  
+        {  
+            Debug.LogWarning("New sprite or 
+sprite renderer not assigned");  
+        }  
+    }  
+}  
+  
+  
+  
+5. Depict a scene of the effect of kicking a ball in Unity (at 3 various speeds). 
+using System.Collections; using 
+System.Collections.Generic; 
+using UnityEngine;  
+ public class BallSpeed : 
+MonoBehaviour  
+{     public Rigidbody 
+rb;     public int 
+speed;     void Start()  
+    {         rb = 
+GetComponent<Rigidbody>();  
+    }  
+  
+    // Update is called once per frame     
+void Update()  
+    {         rb.velocity = new Vector3(0, 0, 
+speed);  
+    }  
+}  
+  
+  
+  
+7.  
+using System.Collections; using 
+System.Collections.Generic; 
+using UnityEngine;  
+ public class PlayerMovement : 
+MonoBehaviour  
+{     private float playerSpeed = 
+40f;     private Rigidbody rb;     
+private float xInput;     private 
+float zInput;  
+    void Start()  
+    {         rb = 
+GetComponent<Rigidbody>();  
+    }  
+  
+    // Update is called once per 
+frame     void Update()     {  
+        Inputs();  
+    }      void 
+FixedUpdate()  
+    {  
+        Move();  
+    }      void 
+Inputs()  
+    {         xInput = 
+Input.GetAxis("Horizontal");         zInput 
+= Input.GetAxis("Vertical");  
+    }      
+void Move()  
+    {         rb.AddForce(new 
+Vector3(xInput, 0, zInput) * 
+playerSpeed);  
+    }  
+}  
+  
+  
+  
+11. Create a basic 2D character controller. Move the player character using Unity’s Input 
+System. 
+using System; using 
+System.Collections;  
+using System.Collections.Generic; 
+using UnityEngine;  
+ public class PlayerMovement : 
+MonoBehaviour  
+{     public float speed = 5f;     
+private float jumpForce = 8f;     
+private Rigidbody2D rb;     void 
+Start()  
+    {         rb = 
+GetComponent<Rigidbody2D>();  
+    }  
+  
+    // Update is called once per frame     
+void Update()  
+    {  
+        float moveHorizontal =  
+Input.GetAxis("Horizontal");  
+        Vector2 movement = new 
+Vector2(moveHorizontal, 0f);         
+rb.velocity = new Vector2(movement.x * speed, 
+rb.velocity.y);  
+  
+        if(Input.GetKeyDown(KeyCode.UpArrow) &&  
+Math.Abs(rb.velocity.y) < 0.001f)  
+        {  
+            rb.AddForce(Vector2.up * jumpForce,  
+ForceMode2D.Impulse);  
+        }  
+    }  
+}  
+  
+12. Create a basic 2D character controller. Move the player character using Unity’s Input 
+System. Configure your game to be frame rate independent. 
+using System; using 
+System.Collections; using 
+System.Collections.Generic; 
+using Unity.VisualScripting; 
+using UnityEngine;  
+ public class PlayerMovement : 
+MonoBehaviour  
+{     public float moveSpeed = 
+5f;     private float jumpForce 
+= 8f;     private Rigidbody2D 
+rb;     void Start()  
+    {         rb = 
+GetComponent<Rigidbody2D>();  
+    }  
+  
+    // Update is called once per frame     
+void Update()  
+    {  
+        float moveHorizontal = 
+Input.GetAxis("Horizontal");  
+        Vector2 movement = new 
+Vector2(moveHorizontal, 0f);         
+rb.velocity = new Vector2(movement.x * 
+moveSpeed, rb.velocity.y);  
+  
+        if(Input.GetKeyDown(KeyCode.UpArrow) &&  
+Math.Abs(rb.velocity.y) < 0.001f)  
+        {  
+            rb.AddForce(Vector2.up * jumpForce,  
+ForceMode2D.Impulse);  
+        }  
+    }  
+}  
+  
+  
+  
+13. using System; using 
+System.Collections; using 
+System.Collections.Generic; 
+using UnityEngine;  
+ public class PlayerMovement : 
+MonoBehaviour  
+{     private float moveSpeed = 
+5f;     private float jumpForce 
+= 8f;     private Rigidbody2D 
+rb;     void Start()  
+    {         rb = 
+GetComponent<Rigidbody2D>();  
+    }  
+  
+    // Update is called once per frame     
+void Update()  
+    {  
+        float moveHorizontal = 
+Input.GetAxis("Horizontal");  
+        Vector2 movement = new 
+Vector2(moveHorizontal, 0f);         
+rb.velocity = new Vector2(movement.x * 
+moveSpeed, rb.velocity.y);  
+  
+        if(Input.GetKeyDown(KeyCode.UpArrow) &&  
+Math.Abs(rb.velocity.y) < 0.001f)         
+{  
+            rb.AddForce(Vector2.up * jumpForce,  
+ForceMode2D.Impulse);  
+        }  
+}  
+}  
+13. Same as 11th. Add walls or obstacles and add box collisions.
